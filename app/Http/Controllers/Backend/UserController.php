@@ -27,8 +27,7 @@ class UserController extends Controller
         ]);
         $data = new User();
         $code = rand(0000,9999);
-        $data->usertype = 'admin';
-        $data->role = $request->role;
+        $data->usertype = $request->usertype;
         $data->name = $request->name;
         $data->email = $request->email;
         $data->password = bcrypt($code);
@@ -48,7 +47,7 @@ class UserController extends Controller
     {
         $data = User::find($id);
         $data->name = $request->name;
-        $data->role = $request->role;
+        $data->usertype = $request->usertype;
         $data->email = $request->email;
         $data->save();
 
@@ -67,4 +66,20 @@ class UserController extends Controller
 
         return redirect()->route('users.view')->with('success', 'Data Deleted Successfully');
     }
+
+    public function viewParent()
+    {
+        $data['allData'] = User::where('usertype', 'parent')->get();
+        return view('backend.user.view-parent', $data);
+    }
+
+    public function deleteParent(Request $request)
+    {
+        $user = User::find($request->id);
+
+        $user->delete();
+
+        return redirect()->route('admin.parents.view')->with('success', 'Data Deleted Successfully');
+    }
+
 }

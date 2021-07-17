@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.3
+-- version 5.0.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 06, 2020 at 12:02 PM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.3.23
+-- Generation Time: Jul 09, 2021 at 06:42 PM
+-- Server version: 10.4.17-MariaDB
+-- PHP Version: 7.4.15
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `school_management`
+-- Database: `school_m`
 --
 
 -- --------------------------------------------------------
@@ -119,7 +119,12 @@ INSERT INTO `assign_students` (`id`, `student_id`, `roll`, `class_id`, `year_id`
 (2, 5, NULL, 2, 1, NULL, NULL, '2020-11-28 15:21:37', '2020-11-28 15:21:37'),
 (3, 6, 1, 1, 3, NULL, NULL, '2020-11-28 15:23:50', '2020-12-02 17:05:08'),
 (4, 7, NULL, 2, 3, NULL, NULL, '2020-11-28 15:26:24', '2020-11-28 15:26:24'),
-(5, 5, NULL, 4, 3, NULL, NULL, '2020-11-29 12:25:08', '2020-11-29 12:25:08');
+(5, 5, NULL, 4, 3, NULL, NULL, '2020-11-29 12:25:08', '2020-11-29 12:25:08'),
+(6, 12, 1, 1, 4, NULL, NULL, '2021-07-05 23:31:19', '2021-07-08 17:28:52'),
+(7, 13, NULL, 1, 4, NULL, NULL, '2021-07-06 01:14:55', '2021-07-06 01:14:55'),
+(8, 15, NULL, 1, 4, NULL, NULL, '2021-07-06 02:00:46', '2021-07-06 02:00:46'),
+(9, 17, NULL, 1, 4, NULL, NULL, '2021-07-06 15:52:54', '2021-07-06 15:52:54'),
+(10, 18, NULL, 1, 4, NULL, NULL, '2021-07-06 15:54:59', '2021-07-06 15:54:59');
 
 -- --------------------------------------------------------
 
@@ -214,7 +219,12 @@ INSERT INTO `discount_students` (`id`, `assign_student_id`, `fee_category_id`, `
 (2, 2, 1, 50, '2020-11-28 15:21:37', '2020-11-28 15:21:37'),
 (3, 3, 1, 5, '2020-11-28 15:23:50', '2020-11-28 15:23:50'),
 (4, 4, 1, 0, '2020-11-28 15:26:24', '2020-11-30 12:15:57'),
-(5, 5, 1, 50, '2020-11-29 12:25:08', '2020-11-29 12:25:08');
+(5, 5, 1, 50, '2020-11-29 12:25:08', '2020-11-29 12:25:08'),
+(6, 6, 1, 0, '2021-07-05 23:31:19', '2021-07-05 23:31:19'),
+(7, 7, 1, 0, '2021-07-06 01:14:55', '2021-07-06 01:14:55'),
+(8, 8, 1, 0, '2021-07-06 02:00:46', '2021-07-06 02:00:46'),
+(9, 9, 1, 0, '2021-07-06 15:52:54', '2021-07-06 15:52:54'),
+(10, 10, 1, 0, '2021-07-06 15:54:59', '2021-07-06 15:54:59');
 
 -- --------------------------------------------------------
 
@@ -245,7 +255,9 @@ INSERT INTO `employee_attendances` (`id`, `employee_id`, `date`, `attend_status`
 (13, 10, '2020-12-05', 'Leave', '2020-12-04 14:05:21', '2020-12-04 14:05:21'),
 (14, 11, '2020-12-05', 'Leave', '2020-12-04 14:05:21', '2020-12-04 14:05:21'),
 (15, 10, '2020-12-06', 'Absent', '2020-12-05 12:53:54', '2020-12-05 12:53:54'),
-(16, 11, '2020-12-06', 'Present', '2020-12-05 12:53:54', '2020-12-05 12:53:54');
+(16, 11, '2020-12-06', 'Present', '2020-12-05 12:53:54', '2020-12-05 12:53:54'),
+(17, 10, '2021-07-08', 'Present', '2021-07-08 14:50:04', '2021-07-08 14:50:04'),
+(18, 11, '2021-07-08', 'Present', '2021-07-08 14:50:04', '2021-07-08 14:50:04');
 
 -- --------------------------------------------------------
 
@@ -487,7 +499,31 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (22, '2020_12_03_174323_create_marks_grades_table', 18),
 (23, '2020_12_03_194148_create_account_student_fees_table', 19),
 (24, '2020_12_03_223042_create_account_employee_salaries_table', 20),
-(25, '2020_12_04_004420_create_account_other_costs_table', 21);
+(25, '2020_12_04_004420_create_account_other_costs_table', 21),
+(29, '2021_07_07_005524_create_notices_table', 22);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notices`
+--
+
+CREATE TABLE `notices` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `subject` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date` date NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `notices`
+--
+
+INSERT INTO `notices` (`id`, `subject`, `description`, `date`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, 'Tuhin', '<p style=\"margin-right: 0px; margin-bottom: 15px; margin-left: 0px; padding: 0px; text-align: justify; font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px;\">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>', '2021-07-07', 1, '2021-07-06 19:53:16', '2021-07-06 20:16:51');
 
 -- --------------------------------------------------------
 
@@ -573,7 +609,14 @@ CREATE TABLE `student_marks` (
 INSERT INTO `student_marks` (`id`, `student_id`, `id_no`, `year_id`, `class_id`, `assign_subject_id`, `exam_type_id`, `marks`, `created_at`, `updated_at`) VALUES
 (5, 6, '20200006', 3, 1, 32, 2, 90, '2020-12-04 14:08:20', '2020-12-04 14:08:20'),
 (6, 6, '20200006', 3, 1, 33, 2, 95, '2020-12-04 14:08:54', '2020-12-04 14:08:54'),
-(8, 6, '20200006', 3, 1, 31, 2, 82, '2020-12-04 19:47:38', '2020-12-04 19:47:38');
+(8, 6, '20200006', 3, 1, 31, 2, 82, '2020-12-04 19:47:38', '2020-12-04 19:47:38'),
+(19, 12, '20210001', 4, 1, 33, 2, 95, '2021-07-06 18:38:24', '2021-07-06 18:38:24'),
+(20, 13, '20210019', 4, 1, 33, 2, NULL, '2021-07-06 18:38:24', '2021-07-06 18:38:24'),
+(21, 15, '20210016', 4, 1, 33, 2, NULL, '2021-07-06 18:38:24', '2021-07-06 18:38:24'),
+(22, 17, '20210011', 4, 1, 33, 2, NULL, '2021-07-06 18:38:24', '2021-07-06 18:38:24'),
+(23, 18, 'null', 4, 1, 33, 2, NULL, '2021-07-06 18:38:24', '2021-07-06 18:38:24'),
+(31, 12, '20210001', 4, 1, 31, 2, 90, '2021-07-08 16:21:45', '2021-07-08 16:21:45'),
+(34, 12, '20210001', 4, 1, 32, 2, 92, '2021-07-08 16:59:30', '2021-07-08 16:59:30');
 
 -- --------------------------------------------------------
 
@@ -663,10 +706,16 @@ INSERT INTO `users` (`id`, `usertype`, `name`, `email`, `email_verified_at`, `pa
 (3, 'admin', 'Rubel', 'rubel@gmail.com', NULL, '$2y$10$TFQMU03bqTKKMjxGLYG5N.dNcqkR0EvCmSS7dzRIiIgOGdJlY5sDO', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '3005', 'Operator', NULL, NULL, NULL, 1, NULL, '2020-11-28 04:11:17', '2020-11-28 04:11:17'),
 (4, 'student', 'X khan', NULL, NULL, '$2y$10$vRsN75qbV8d07//2YRH9DOdY25iy5MaXs4Ar7SGoT59C3G9UBW8MC', '01923552130', 'Dattapara, Savar, Dhaka-1216', 'Male', '20201128202752603638-asian-little-school-boy-holding-books-with-backpack-on-white-background.jpg', 'Y Khan', 'Z khan', 'Islam', '20190001', '1999-01-01', '7068', NULL, NULL, NULL, NULL, 1, NULL, '2020-11-28 14:27:48', '2020-11-28 14:27:48'),
 (5, 'student', 'Jems Bond', NULL, NULL, '$2y$10$DeJMfC1Y3GFsvnCyts8pYuUZ3NRaHZkM6R8Z1o5b293u9wdp0IskW', '01923552131', 'Savar, Dhaka', 'Male', '202011282121portrait-smiling-hispanic-boy-looking-260nw-1104967028.webp', 'X Sarker', 'W Khatun', 'Islam', '20190005', '2003-11-19', '9942', NULL, NULL, NULL, NULL, 1, NULL, '2020-11-28 15:21:37', '2020-11-28 15:21:37'),
-(6, 'student', 'Vijay', NULL, NULL, '$2y$10$XcCBS9atcBNS0wXLPNJpi.7aEqKzKgLYIwMKtmWr1.HbjlumNfEMy', '01923552134', 'Belkuchi, Sirajgonj', 'Male', '202011282123gettyimages-1175573811-612x612.jpg', 'A Haque', 'A Haque', 'Islam', '20200006', '2002-11-06', '9006', NULL, NULL, NULL, NULL, 1, NULL, '2020-11-28 15:23:50', '2020-11-29 12:06:43'),
+(6, 'student', 'Vijay', 'vijay@gmail.com', NULL, '$2y$10$XcCBS9atcBNS0wXLPNJpi.7aEqKzKgLYIwMKtmWr1.HbjlumNfEMy', '01923552134', 'Belkuchi, Sirajgonj', 'Male', '202011282123gettyimages-1175573811-612x612.jpg', 'A Haque', 'A Haque', 'Islam', '20200006', '2002-11-06', '9006', NULL, NULL, NULL, NULL, 1, NULL, '2020-11-28 15:23:50', '2021-07-06 18:29:16'),
 (7, 'student', 'Sagor Islam', NULL, NULL, '$2y$10$PT.cu4xZzvLXTcL8WSR89eYK2KP0XWuKs6SK5377v3tcZ7BsnZIJm', '01923552135', 'Sector 10 - Uttara, Dhaka', 'Male', '202011282126gettyimages-614848702-612x612.jpg', 'C Poramanik', 'D Begum', 'Islam', '20200007', '2000-11-01', '4037', NULL, NULL, NULL, NULL, 1, NULL, '2020-11-28 15:26:24', '2020-11-28 15:26:24'),
-(10, 'employee', 'Tuhin Islam', NULL, NULL, '$2y$10$BLxYPSja0nzl1/ZI4osYCe5QXfkRJRjuWBtTCvQYatf/UuqFV6zri', '01923552130', 'Dattapara, Savar, Dhaka-1216', 'Male', '202012010424rsz_bg1.png', 'Xyz', 'Abcd', 'Islam', '2020070001', '1996-06-02', '5595', NULL, '2020-12-01', 4, 30000, 1, NULL, '2020-11-30 22:24:40', '2020-12-01 14:16:33'),
-(11, 'employee', 'Faisal Ahmed', NULL, NULL, '$2y$10$BI5pbm/Rxy7V8Qrir2t5tuADe2BqR0tNlw7zFWhQCcWdOh1.eUhHu', '01923552139', 'Savar, Dhaka', 'Male', '202012011726630-07071785en_Masterfile.jpg', 'Y Khan', 'Bcd', 'Islam', '2020110011', '2001-12-05', '7545', NULL, '2020-11-02', 1, 12000, 1, NULL, '2020-12-01 11:26:00', '2020-12-01 14:19:59');
+(10, 'teacher', 'Tuhin Islam', 'tuhin@gmail.com', NULL, '$2y$10$BLxYPSja0nzl1/ZI4osYCe5QXfkRJRjuWBtTCvQYatf/UuqFV6zri', '01923552130', 'Dattapara, Savar, Dhaka-1216', 'Male', '202012010424rsz_bg1.png', 'Xyz', 'Abcd', 'Islam', '2020070001', '1996-06-02', '5595', NULL, '2020-12-01', 4, 30000, 1, NULL, '2020-11-30 22:24:40', '2021-07-08 14:38:01'),
+(11, 'teacher', 'Faisal Ahmed', 'faisal@gmail.com', NULL, '$2y$10$BI5pbm/Rxy7V8Qrir2t5tuADe2BqR0tNlw7zFWhQCcWdOh1.eUhHu', '01923552139', 'Savar, Dhaka', 'Male', '202012011726630-07071785en_Masterfile.jpg', 'Y Khan', 'Bcd', 'Islam', '2020110011', '2001-12-05', '7545', NULL, '2020-11-02', 1, 12000, 1, NULL, '2020-12-01 11:26:00', '2021-07-08 14:38:19'),
+(12, 'student', 'Vijays', 'walton@gmail.com', NULL, '$2y$10$VwMyYRyjURCc1bpe86JGA.AwgIu6GwBfgGgtivV2drUfsnee0Qlhi', '01735792112', 'fsdsd', 'Male', NULL, 'dsfa', 'sdfrfg', 'Islam', '20210001', '2021-07-06', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2021-07-05 23:31:19', '2021-07-06 18:29:53'),
+(13, 'student', 'Dhaka', 'dhaka@gmail.com', NULL, '$2y$10$5tI8orvtLoVE8v4FMcttOe.c2T042sFHlODDSI/.sgw33NJbeGSD6', '01735792112', 'fsdsd', 'Male', NULL, 'dsfa', 'sdf42', 'Islam', '20210019', '2021-07-06', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2021-07-06 01:14:55', '2021-07-06 18:24:55'),
+(15, 'student', 'dsafsad', 'admin@gmail.com', NULL, '$2y$10$VAU.oFDdPaOkR3iV3PKHL.e4zKkKX.d0l/C4x0WRZehUIb6xz8R2S', '65756', 'rtyrte', 'Male', NULL, '5rtyr', '56545', 'Islam', '20210016', '2021-07-06', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2021-07-06 02:00:46', '2021-07-06 02:01:21'),
+(17, 'student', 'Foysal', 'foysal@gmail.com', NULL, '$2y$10$WGT5JFKIsXM8.U1mDeqwIOVwmvVBTHV/lvXOT6u0OTm5T5FNVw0e6', '01735792116', 'abc', 'Male', NULL, 'x', 'y', 'Islam', '20210011', '2021-07-06', NULL, NULL, NULL, NULL, NULL, 1, NULL, '2021-07-06 15:52:54', '2021-07-06 18:30:17'),
+(18, 'student', 'Hossain', 'hossain@gmail.com', NULL, '$2y$10$P8Xv47y/j4K2skyHxa9nDelRFawvTYfOgKEcyjIjAlYnpSTAjV6yu', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2021-07-06 15:54:59', '2021-07-06 15:54:59'),
+(20, 'parent', 'X khan', 'x@gmail.com', NULL, '$2y$10$dCC3KjBoutLKgiBl04tJyOJRkb2gQPaisKU2c5LINrM5C85x0obp.', '01923665897', 'Dattapara, Savar, Dhaka-1216', 'Male', '202107081925NScBIU7wlF.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1, NULL, '2021-07-08 13:15:20', '2021-07-08 13:25:18');
 
 -- --------------------------------------------------------
 
@@ -687,7 +736,8 @@ CREATE TABLE `years` (
 
 INSERT INTO `years` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (1, '2019', '2020-11-26 05:21:30', '2020-11-26 05:21:30'),
-(3, '2020', '2020-11-26 05:22:21', '2020-11-26 05:22:21');
+(3, '2020', '2020-11-26 05:22:21', '2020-11-26 05:22:21'),
+(4, '2021', '2021-07-05 23:33:11', '2021-07-05 23:33:11');
 
 --
 -- Indexes for dumped tables
@@ -800,6 +850,12 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `notices`
+--
+ALTER TABLE `notices`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `password_resets`
 --
 ALTER TABLE `password_resets`
@@ -878,7 +934,7 @@ ALTER TABLE `account_student_fees`
 -- AUTO_INCREMENT for table `assign_students`
 --
 ALTER TABLE `assign_students`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `assign_subjects`
@@ -896,13 +952,13 @@ ALTER TABLE `designations`
 -- AUTO_INCREMENT for table `discount_students`
 --
 ALTER TABLE `discount_students`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `employee_attendances`
 --
 ALTER TABLE `employee_attendances`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `employee_leavves`
@@ -956,7 +1012,13 @@ ALTER TABLE `marks_grades`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
+--
+-- AUTO_INCREMENT for table `notices`
+--
+ALTER TABLE `notices`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `student_classes`
@@ -974,7 +1036,7 @@ ALTER TABLE `student_groups`
 -- AUTO_INCREMENT for table `student_marks`
 --
 ALTER TABLE `student_marks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `student_shifts`
@@ -992,13 +1054,13 @@ ALTER TABLE `subjects`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `years`
 --
 ALTER TABLE `years`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -12,7 +12,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
                         <li class="breadcrumb-item active">User</li>
                     </ol>
                 </div><!-- /.col -->
@@ -41,7 +41,7 @@
                                 <thead>
                                     <tr>
                                         <th>SL.</th>
-                                        <th>Role</th>
+                                        <th>Type</th>
                                         <th>Name</th>
                                         <th>Email</th>
                                         <th>Code</th>
@@ -52,7 +52,7 @@
                                     @foreach($allData as $key => $user)
                                     <tr class="{{ $user->id }}">
                                         <td>{{ $key+1 }}</td>
-                                        <td>{{ $user->role }}</td>
+                                        <td>{{ $user->usertype }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->code }}</td>

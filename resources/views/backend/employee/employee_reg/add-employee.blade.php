@@ -12,7 +12,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
                         <li class="breadcrumb-item active">Employee</li>
                     </ol>
                 </div><!-- /.col -->
@@ -61,6 +61,10 @@
                                     <div class="form-group col-md-4">
                                         <label>Mobile Number <font style="color: red">*</font></label>
                                         <input type="text" name="mobile" value="{{ @$editData->mobile }}" class="form-control form-control-sm">
+                                    </div>
+                                    <div class="form-group col-md-4">
+                                        <label>E-mail <font style="color: red">*</font></label>
+                                        <input type="text" name="email" value="{{ @$editData->email }}" class="form-control form-control-sm">
                                     </div>
                                     <div class="form-group col-md-4">
                                         <label>Address <font style="color: red">*</font></label>

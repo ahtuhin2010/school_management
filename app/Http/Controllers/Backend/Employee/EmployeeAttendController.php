@@ -23,7 +23,7 @@ class EmployeeAttendController extends Controller
 
     public function add()
     {
-        $data['employees'] = User::where('usertype', 'employee')->get();
+        $data['employees'] = User::where('usertype', 'teacher')->get();
         return view('backend.employee.attendance.add-attendance', $data);
     }
 
@@ -46,7 +46,7 @@ class EmployeeAttendController extends Controller
     public function edit($date)
     {
         $data['editData'] = EmployeeAttendance::where('date', $date)->get();
-        $data['employees'] = User::where('usertype', 'employee')->get();
+        $data['employees'] = User::where('usertype', 'teacher')->get();
         return view('backend.employee.attendance.add-attendance', $data);
     }
 

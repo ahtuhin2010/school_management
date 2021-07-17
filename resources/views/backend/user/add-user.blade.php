@@ -12,7 +12,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
                         <li class="breadcrumb-item active">User</li>
                     </ol>
                 </div><!-- /.col -->
@@ -42,11 +42,11 @@
 
                                 <div class="form row">
                                     <div class="form-group col-md-4">
-                                        <label for="role">User Roel</label>
-                                        <select name="role" id="role" class="form-control">
-                                            <option value="">Select Role</option>
-                                            <option value="Admin">Admin</option>
-                                            <option value="Operator">Operator</option>
+                                        <label for="role">User Type</label>
+                                        <select name="usertype" id="role" class="form-control">
+                                            <option value="">Select Type</option>
+                                            <option value="admin">Admin</option>
+                                            <option value="teacher">Teacher</option>
                                         </select>
                                     </div>
 

@@ -22,7 +22,7 @@ class EmployeeLeaveController extends Controller
 
     public function add()
     {
-        $data['employees'] = User::where('usertype', 'employee')->get();
+        $data['employees'] = User::where('usertype', 'teacher')->get();
         $data['leave_purpose'] = LeavePurpose::all();
         return view('backend.employee.employee_leave.add-leave', $data);
     }
@@ -50,7 +50,7 @@ class EmployeeLeaveController extends Controller
     public function edit($id)
     {
         $data['editData'] = EmployeeLeavve::find($id);
-        $data['employees'] = User::where('usertype', 'employee')->get();
+        $data['employees'] = User::where('usertype', 'teacher')->get();
         $data['leave_purpose'] = LeavePurpose::all();
         return view('backend.employee.employee_leave.add-leave', $data);
     }

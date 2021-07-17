@@ -21,6 +21,13 @@
     </div>
     <!-- /.content-header -->
 
+    @php
+        $count_admin = App\User::where('usertype', 'admin')->count();
+        $count_teacher = App\User::where('usertype', 'teacher')->count();
+        $count_students = App\User::where('usertype', 'student')->count();
+        $count_parents = App\User::where('usertype', 'parent')->count();
+    @endphp
+
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
@@ -30,14 +37,14 @@
                     <!-- small box -->
                     <div class="small-box bg-info">
                         <div class="inner">
-                            <h3>150</h3>
+                            <h3>{{ $count_admin }}</h3>
 
-                            <p>New Orders</p>
+                            <p>Admin</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+
                     </div>
                 </div>
                 <!-- ./col -->
@@ -45,14 +52,14 @@
                     <!-- small box -->
                     <div class="small-box bg-success">
                         <div class="inner">
-                            <h3>53<sup style="font-size: 20px">%</sup></h3>
+                            <h3>{{ $count_teacher }}</h3>
 
-                            <p>Bounce Rate</p>
+                            <p>Teacher</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-stats-bars"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+
                     </div>
                 </div>
                 <!-- ./col -->
@@ -60,14 +67,14 @@
                     <!-- small box -->
                     <div class="small-box bg-warning">
                         <div class="inner">
-                            <h3>44</h3>
+                            <h3>{{ $count_students }}</h3>
 
-                            <p>User Registrations</p>
+                            <p>Students</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-person-add"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+
                     </div>
                 </div>
                 <!-- ./col -->
@@ -75,14 +82,14 @@
                     <!-- small box -->
                     <div class="small-box bg-danger">
                         <div class="inner">
-                            <h3>65</h3>
+                            <h3>{{ $count_parents }}</h3>
 
-                            <p>Unique Visitors</p>
+                            <p>Parents</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-pie-graph"></i>
                         </div>
-                        <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+
                     </div>
                 </div>
                 <!-- ./col -->

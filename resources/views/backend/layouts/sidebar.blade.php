@@ -143,6 +143,13 @@ $route = Route::current()->getName();
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
+                    <a href="{{ route('students.registration.viewAllStudent') }}" class="nav-link {{ ($route=='students.registration.viewAllStudent'?'active':'') }}">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>All Students</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
                     <a href="{{ route('students.registration.view') }}" class="nav-link {{ ($route=='students.registration.view'?'active':'') }}">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Student Registration</p>
@@ -350,6 +357,41 @@ $route = Route::current()->getName();
                     <a href="{{ route('reports.id-card.view') }}" class="nav-link {{ ($route=='reports.id-card.view'?'active':'') }}">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Student ID Card</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+        <li class="nav-item has-treeview {{ ($prefix=='/notice')?'menu-open':'' }}">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-copy"></i>
+                <p>
+                    Manage Notice
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="{{ route('notice.view') }}" class="nav-link {{ ($route=='notice.view'?'active':'') }}">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Notice Board</p>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="nav-item has-treeview {{ ($prefix=='/parents')?'menu-open':'' }}">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-copy"></i>
+                <p>
+                    Manage Parents
+                    <i class="fas fa-angle-left right"></i>
+                </p>
+            </a>
+            <ul class="nav nav-treeview">
+                <li class="nav-item">
+                    <a href="{{ route('admin.parents.view') }}" class="nav-link {{ ($route=='admin.parents.view'?'active':'') }}">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>All Parent</p>
                     </a>
                 </li>
             </ul>

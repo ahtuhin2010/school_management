@@ -21,8 +21,8 @@ class StudentRegController extends Controller
     {
         $data['years'] = Year::orderBY('id', 'desc')->get();
         $data['classes'] = StudentClass::all();
-        $data['year_id'] = Year::orderBy('id','desc')->first()->id;
-        $data['class_id'] = StudentClass::orderBy('id','asc')->first()->id;
+        $data['year_id'] = Year::orderBy('id', 'desc')->first()->id;
+        $data['class_id'] = StudentClass::orderBy('id', 'asc')->first()->id;
         $data['allData'] = AssignStudent::where('year_id', $data['year_id'])->where('class_id', $data['class_id'])->get();
         return view('backend.student.student_reg.view-student', $data);
     }
@@ -48,42 +48,49 @@ class StudentRegController extends Controller
 
     public function store(Request $request)
     {
-        DB::transaction(function() use($request){
-            $checkYear = Year::find($request->year_id)->name;
-            $student = User::where('usertype','student')->orderBy('id','DESC')->first();
-            if ($student == null) {
-                $firstReg = 0;
-                $studentId = $firstReg + 1;
-                if ($studentId < 10) {
-                    $id_no = '000' . $studentId;
-                } elseif ($studentId < 100) {
-                    $id_no = '00' . $studentId;
-                } elseif ($studentId < 1000) {
-                    $id_no = '0' . $studentId;
-                }
-            } else {
-                $student = User::where('usertype', 'student')->orderBy('id', 'DESC')->first()->id;
-                $studentId = $student + 1;
-                if ($studentId < 10) {
-                    $id_no = '000' . $studentId;
-                } elseif ($studentId < 100) {
-                    $id_no = '00' . $studentId;
-                } elseif ($studentId < 1000) {
-                    $id_no = '0' . $studentId;
-                }
-            }
-            $finla_id_no = $checkYear.$id_no;
+
+        $this->validate($request, [
+            'id_no' => 'required|unique:users,id_no',
+        ]);
+
+        DB::transaction(function () use ($request) {
+            // $checkYear = Year::find($request->year_id)->name;
+            // $student = User::where('usertype', 'student')->orderBy('id', 'DESC')->first();
+            // if ($student == null) {
+            //     $firstReg = 0;
+            //     $studentId = $firstReg + 1;
+            //     if ($studentId < 10) {
+            //         $id_no = '000' . $studentId;
+            //     } elseif ($studentId < 100) {
+            //         $id_no = '00' . $studentId;
+            //     } elseif ($studentId < 1000) {
+            //         $id_no = '0' . $studentId;
+            //     }
+            // } else {
+            //     $student = User::where('usertype', 'student')->orderBy('id', 'DESC')->first()->id;
+            //     $studentId = $student + 1;
+            //     if ($studentId < 10) {
+            //         $id_no = '000' . $studentId;
+            //     } elseif ($studentId < 100) {
+            //         $id_no = '00' . $studentId;
+            //     } elseif ($studentId < 1000) {
+            //         $id_no = '0' . $studentId;
+            //     }
+            // }
+            // $finla_id_no = $checkYear . $id_no;
 
             $user = new User();
             $code = rand(0000, 9999);
-            $user->id_no = $finla_id_no;
+            $user->id_no = $request->id_no;
             $user->password = bcrypt($code);
             $user->code = $code;
             $user->usertype = 'student';
+            $user->status = 1;
             $user->name = $request->name;
             $user->fname = $request->fname;
             $user->mname = $request->mname;
             $user->mobile = $request->mobile;
+            $user->email = $request->email;
             $user->address = $request->address;
             $user->gender = $request->gender;
             $user->religion = $request->religion;
@@ -129,13 +136,43 @@ class StudentRegController extends Controller
 
     public function update(Request $request, $student_id)
     {
+
         DB::transaction(function () use ($request, $student_id) {
 
+
+            // $checkYear = Year::find($request->year_id)->name;
+            // $student = User::where('usertype', 'student')->orderBy('id', 'DESC')->first();
+            // if ($student == null) {
+            //     $firstReg = 0;
+            //     $studentId = $firstReg + 1;
+            //     if ($studentId < 10) {
+            //         $id_no = '000' . $studentId;
+            //     } elseif ($studentId < 100) {
+            //         $id_no = '00' . $studentId;
+            //     } elseif ($studentId < 1000) {
+            //         $id_no = '0' . $studentId;
+            //     }
+            // } else {
+            //     $student = User::where('usertype', 'student')->orderBy('id', 'DESC')->first()->id;
+            //     $studentId = $student + 1;
+            //     if ($studentId < 10) {
+            //         $id_no = '000' . $studentId;
+            //     } elseif ($studentId < 100) {
+            //         $id_no = '00' . $studentId;
+            //     } elseif ($studentId < 1000) {
+            //         $id_no = '0' . $studentId;
+            //     }
+            // }
+            // $finla_id_no = $checkYear . $id_no;
+
             $user = User::where('id', $student_id)->first();
+            $user->id_no = $request->id_no;
+            $user->status = 1;
             $user->name = $request->name;
             $user->fname = $request->fname;
             $user->mname = $request->mname;
             $user->mobile = $request->mobile;
+            $user->email = $request->email;
             $user->address = $request->address;
             $user->gender = $request->gender;
             $user->religion = $request->religion;
@@ -186,6 +223,7 @@ class StudentRegController extends Controller
             $user->fname = $request->fname;
             $user->mname = $request->mname;
             $user->mobile = $request->mobile;
+            $user->email = $request->email;
             $user->address = $request->address;
             $user->gender = $request->gender;
             $user->religion = $request->religion;
@@ -228,6 +266,19 @@ class StudentRegController extends Controller
         return $pdf->stream('document.pdf');
     }
 
+    public function viewAllStudent()
+    {
+        // $data['student'] = User::where('usertype', 'student')->get();
+        // $data['years'] = Year::orderBY('id', 'desc')->get();
+        // $data['classes'] = StudentClass::all();
+        // $data['allData'] = AssignStudent::all();
+        // $data['editData'] = AssignStudent::with(['student', 'discount'])->where('student_id', $student_id)->first();
+        $data['student'] = DB::table('assign_students')
+                            ->join('users', 'assign_students.student_id', 'users.id')
+                            ->select('assign_students.*', 'users.name', 'users.email')
+                            ->orderBy('id', 'desc')
+                            ->get();
 
-
+        return view('backend.student.student_reg.view-all-student', $data);
+    }
 }

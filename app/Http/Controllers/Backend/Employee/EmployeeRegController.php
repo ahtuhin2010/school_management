@@ -21,7 +21,7 @@ class EmployeeRegController extends Controller
 {
     public function view()
     {
-        $data['allData'] = User::where('usertype', 'employee')->get();
+        $data['allData'] = User::where('usertype', 'teacher')->get();
         return view('backend.employee.employee_reg.view-employee', $data);
     }
 
@@ -64,11 +64,12 @@ class EmployeeRegController extends Controller
             $user->id_no = $finla_id_no;
             $user->password = bcrypt($code);
             $user->code = $code;
-            $user->usertype = 'employee';
+            $user->usertype = 'teacher';
             $user->name = $request->name;
             $user->fname = $request->fname;
             $user->mname = $request->mname;
             $user->mobile = $request->mobile;
+            $user->email = $request->email;
             $user->address = $request->address;
             $user->gender = $request->gender;
             $user->religion = $request->religion;
@@ -115,6 +116,7 @@ class EmployeeRegController extends Controller
         $user->fname = $request->fname;
         $user->mname = $request->mname;
         $user->mobile = $request->mobile;
+        $user->email = $request->email;
         $user->address = $request->address;
         $user->gender = $request->gender;
         $user->religion = $request->religion;

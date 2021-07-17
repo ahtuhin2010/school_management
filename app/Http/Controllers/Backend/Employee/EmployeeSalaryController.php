@@ -14,7 +14,7 @@ class EmployeeSalaryController extends Controller
 {
     public function view()
     {
-        $data['allData'] = User::where('usertype', 'employee')->get();
+        $data['allData'] = User::where('usertype', 'teacher')->get();
         return view('backend.employee.employee_salary.view-employee-salary', $data);
     }
 

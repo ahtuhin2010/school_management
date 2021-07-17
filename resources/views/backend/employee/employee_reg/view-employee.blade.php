@@ -12,7 +12,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
                         <li class="breadcrumb-item active">Employee</li>
                     </ol>
                 </div><!-- /.col -->
@@ -48,9 +48,8 @@
                                         <th>Gender</th>
                                         <th>Joint Date</th>
                                         <th>Salay</th>
-                                        @if (Auth::user()->role=='Admin')
+                                        <th>Email</th>
                                         <th>Code</th>
-                                        @endif
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -65,9 +64,8 @@
                                         <td>{{ $value->gender }}</td>
                                         <td>{{ date('d-m-Y', strtotime($value->joint_date)) }}</td>
                                         <td>{{ $value->salary }} Tk</td>
-                                        @if (Auth::user()->role=='Admin')
+                                        <td>{{ $value->email }}</td>
                                         <td>{{ $value->code }}</td>
-                                        @endif
                                         <td>
                                             <a title="Edit" class="btn btn-sm btn-primary" href="{{ route('employees.registration.edit', $value->id) }}"><i class="fa fa-edit"></i></a>
                                             <a title="Details" target="_blank" class="btn btn-sm btn-success" href="{{ route('employees.registration.details', $value->id) }}"><i class="fa fa-eye"></i></a>

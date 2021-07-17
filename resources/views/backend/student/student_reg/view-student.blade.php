@@ -12,7 +12,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('home') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ route('admin.home') }}">Home</a></li>
                         <li class="breadcrumb-item active">Students</li>
                     </ol>
                 </div><!-- /.col -->
@@ -75,8 +75,9 @@
                                             <th>Year</th>
                                             <th>Class</th>
                                             <th>Image</th>
-                                            @if (Auth::user()->role=='Admin')
-                                            <th>Code</th>
+                                            @if (Auth::user()->usertype=='admin')
+                                            <th>Email</th>
+                                            <th>Password</th>
                                             @endif
                                             <th width="14%">Action</th>
                                         </tr>
@@ -93,7 +94,8 @@
                                             <td>
                                                 <img src="{{ (!empty($value['student']['image']))?url('upload/student_images/'.$value['student']['image']):url('upload/no_image.png') }}" style="width: 70px;height:80px;">
                                             </td>
-                                            @if (Auth::user()->role=='Admin')
+                                            @if (Auth::user()->usertype=='admin')
+                                            <td>{{ $value['student']['email'] }}</td>
                                             <td>{{ $value['student']['code'] }}</td>
                                             @endif
                                             <td>
@@ -117,8 +119,9 @@
                                         <th>Year</th>
                                         <th>Class</th>
                                         <th>Image</th>
-                                        @if (Auth::user()->role=='Admin')
-                                        <th>Code</th>
+                                        @if (Auth::user()->usertype=='admin')
+                                        <th>Email</th>
+                                        <th>Passowrd</th>
                                         @endif
                                         <th width="14%">Action</th>
                                     </tr>
@@ -135,7 +138,8 @@
                                         <td>
                                             <img src="{{ (!empty($value['student']['image']))?url('upload/student_images/'.$value['student']['image']):url('upload/no_image.png') }}" style="width: 70px;height:80px;">
                                         </td>
-                                        @if (Auth::user()->role=='Admin')
+                                        @if (Auth::user()->usertype=='admin')
+                                        <td>{{ $value['student']['email'] }}</td>
                                         <td>{{ $value['student']['code'] }}</td>
                                         @endif
                                         <td>

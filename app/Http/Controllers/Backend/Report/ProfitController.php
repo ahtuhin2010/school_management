@@ -10,11 +10,13 @@ use App\Model\AssignStudent;
 use App\Model\EmployeeAttendance;
 use App\Model\ExamType;
 use App\Model\MarksGrade;
+use App\Model\Notice;
 use App\Model\StudentClass;
 use App\Model\StudentMark;
 use App\Model\Year;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use DB;
 use PDF;
 
@@ -99,7 +101,7 @@ class ProfitController extends Controller
 
     public function attendanceView()
     {
-        $data['employeess'] = User::where('usertype', 'employee')->get();
+        $data['employeess'] = User::where('usertype', 'teacher')->get();
         return view('backend.report.attendance-view', $data);
     }
 
@@ -177,6 +179,66 @@ class ProfitController extends Controller
         } else {
             return redirect()->back()->with('error', 'Sorry! These criteria does not match!');
         }
+    }
+
+
+    public function noticeView()
+    {
+        $data['allData'] = Notice::orderBy('id', 'desc')->get();
+        return view('backend.notice.view-notice', $data);
+    }
+
+    public function add()
+    {
+        return view('backend.notice.add-notice');
+    }
+
+    public function store(Request $request)
+    {
+
+        $data = new Notice();
+        $data->user_id = Auth::id();
+        $data->subject = $request->subject;
+        $data->date = $request->date;
+        $data->description = $request->description;
+
+        $data->save();
+
+        return redirect()->route('notice.view')->with('success', 'Data Inserted Successfully');
+    }
+
+    public function edit($id)
+    {
+        $data['editData'] = Notice::find($id);
+        return view('backend.notice.edit-notice', $data);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $data = Notice::find($id);
+
+        $data->user_id = Auth::id();
+        $data->subject = $request->subject;
+        $data->date = $request->date;
+        $data->description = $request->description;
+
+        $data->save();
+
+        return redirect()->route('notice.view')->with('success', 'Data Updated Successfully');
+    }
+
+    public function delete(Request $request)
+    {
+        $data = Notice::find($request->id);
+        $data->delete();
+
+        return redirect()->route('notice.view')->with('success', 'Data Deleted Successfully');
+    }
+
+    public function details($id)
+    {
+        $data['detailsData'] = Notice::find($id);
+        return view('backend.notice.detail-notice', $data);
     }
 
 

@@ -9,7 +9,7 @@ class AssignStudent extends Model
 {
     public function student()
     {
-        return $this->belongsTo(User::class, 'student_id','id');
+        return $this->belongsTo(User::class, 'student_id', 'id');
     }
 
     public function student_class()

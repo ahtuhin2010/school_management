@@ -15,21 +15,26 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () {
-    return view('auth.login');
+    return view('welcome');
 });
 
-Auth::routes(['register' => false]);
+// Auth::routes(['register' => false]);
 
-Route::get('/home', 'HomeController@index')->name('home');
+Auth::routes();
+
+Route::get('/register?usertype=student', 'Auth\RegisterController@showRegistrationForm')->name('register.student');
 
 
-Route::group(['middleware' => 'auth'], function () {
+
+Route::middleware(['auth', 'admin'])->group(function () {
+
+    Route::get('/admin', 'HomeController@indexAdmin')->name('admin.home');
 
     Route::prefix('users')->group(function () {
         Route::get('/view', 'Backend\UserController@view')->name('users.view');
         Route::get('/add', 'Backend\UserController@add')->name('users.add');
         Route::post('/store', 'Backend\UserController@store')->name('users.store');
-        Route::get('/eidt/{id}', 'Backend\UserController@edit')->name('users.edit');
+        Route::get('/details/{id}', 'Backend\UserController@edit')->name('users.edit');
         Route::post('/update/{id}', 'Backend\UserController@update')->name('users.update');
         Route::post('/delete', 'Backend\UserController@delete')->name('users.delete');
     });
@@ -130,6 +135,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::prefix('students')->group(function () {
         // Student Registration
         Route::get('/reg/view', 'Backend\Student\StudentRegController@view')->name('students.registration.view');
+        Route::get('/reg/view/student', 'Backend\Student\StudentRegController@viewAllStudent')->name('students.registration.viewAllStudent');
         Route::get('/reg/add', 'Backend\Student\StudentRegController@add')->name('students.registration.add');
         Route::post('/reg/store', 'Backend\Student\StudentRegController@store')->name('students.registration.store');
         Route::get('/reg/eidt/{student_id}', 'Backend\Student\StudentRegController@edit')->name('students.registration.edit');
@@ -262,6 +268,192 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/id-card/get', 'Backend\Report\ProfitController@idCardGet')->name('reports.id-card.get');
 
     });
+
+
+    // Notice Board
+    Route::prefix('notice')->group(function () {
+        Route::get('/view', 'Backend\Report\ProfitController@noticeView')->name('notice.view');
+        Route::get('/add', 'Backend\Report\ProfitController@add')->name('notice.add');
+        Route::post('/store', 'Backend\Report\ProfitController@store')->name('notice.store');
+        Route::get('/eidt/{id}', 'Backend\Report\ProfitController@edit')->name('notice.edit');
+        Route::post('/update/{id}', 'Backend\Report\ProfitController@update')->name('notice.update');
+        Route::post('/delete', 'Backend\Report\ProfitController@delete')->name('notice.delete');
+        Route::get('/details/{id}', 'Backend\Report\ProfitController@details')->name('notice.details');
+
+    });
+
+    // Parent
+    Route::prefix('parents')->group(function () {
+        Route::get('/view', 'Backend\UserController@viewParent')->name('admin.parents.view');
+        Route::post('/delete', 'Backend\UserController@deleteParent')->name('admin.parents.delete');
+    });
+
+
+});
+
+
+// Teacher
+Route::middleware(['auth', 'teacher'])->group(function () {
+
+    Route::get('/teacher', 'HomeController@indexTeacher')->name('teacher.home');
+
+    Route::prefix('profiles')->group(function () {
+        Route::get('/teacher/view', 'Teacher\ProfileController@view')->name('teacher.profiles.view');
+
+        Route::get('/teacher/Password/view', 'Teacher\ProfileController@passwordView')->name('teacher.profiles.password.view');
+        Route::post('/teacher/Password/update', 'Teacher\ProfileController@passwordUpdate')->name('teacher.profiles.password.update');
+    });
+
+
+    // Manage Information
+    Route::prefix('information')->group(function () {
+
+        Route::get('/teacher/fee-category-amount/view', 'Teacher\InformationController@feeCategoryAmount')->name('teacher.fee.category.amount.view');
+        Route::get('/teacher/details/{fee_category_id}', 'Teacher\InformationController@feeCategoryAmountDetails')->name('teacher.fee.category.amount.details');
+
+        Route::get('/teacher/exam/type/view', 'Teacher\InformationController@viewExamType')->name('teacher.exam.type.view');
+
+        Route::get('/teacher/assign/subject/view', 'Teacher\InformationController@viewAssignSubject')->name('teacher.assign.subject.view');
+        Route::get('/teacher/assign/subject/details/{class_id}', 'Teacher\InformationController@detailsAssignSubject')->name('teacher.assign.subject.details');
+    });
+
+
+    // Marks Management
+    Route::prefix('marks')->group(function () {
+        Route::get('/parent/marks/grade/view', 'Teacher\MarkController@viewMarkGrade')->name('teacher.mark.grade.view');
+
+        Route::get('/teacher/add', 'Teacher\MarkController@add')->name('teacher.marks.add');
+        Route::post('/teacher/store', 'Teacher\MarkController@store')->name('teacher.marks.store');
+        Route::get('/teacher/eidt', 'Teacher\MarkController@edit')->name('teacher.marks.edit');
+        Route::get('/teacher/get-student-marks', 'Teacher\MarkController@getMarks')->name('teacher.get-student-marks');
+        Route::post('/teacher/update', 'Teacher\MarkController@update')->name('teacher.marks.update');
+
+
+        Route::get('/teacher/get-student', 'Teacher\DefaultController@getStudent')->name('teacher.get-student');
+        Route::get('/teacher/get-subject', 'Teacher\DefaultController@getSubject')->name('teacher.get-subject');
+
+        // Student Roll Genarate
+        Route::get('/teacher/roll/view', 'Teacher\MarkController@view')->name('teacher.students.roll.view');
+        Route::get('/teacher/roll/get-student', 'Teacher\MarkController@getStudent')->name('teacher.students.roll.get-student');
+        Route::post('/teacher/roll/store', 'Teacher\MarkController@storeRoll')->name('teacher.students.roll.store');
+
+        // Marks Sheet
+        Route::get('/teacher//marksheet/view', 'Teacher\MarkController@markSheetView')->name('teacher.reports.marksheet.view');
+        Route::get('/teacher//marksheet/get', 'Teacher\MarkController@markSheetGet')->name('teacher.reports.marksheet.get');
+
+        // Students Result
+        Route::get('/teacher/result/view', 'Teacher\MarkController@resultView')->name('teacher.reports.result.view');
+        Route::get('/teacher/result/get', 'Teacher\MarkController@resultGet')->name('teacher.reports.result.get');
+
+    });
+
+    // Manage Attendance
+    Route::prefix('teacher')->group(function () {
+        Route::get('/attendance/view', 'Teacher\AttendanceController@attendanceView')->name('teacher.reports.attendance.view');
+        Route::get('/attendance/get', 'Teacher\AttendanceController@attendanceGet')->name('teacher.reports.attendance.get');
+
+    });
+
+
+    // Notice Board
+    Route::prefix('notice')->group(function () {
+        Route::get('/teacher/view', 'Teacher\NoticeController@noticeView')->name('teacher.notice.view');
+        Route::get('/teacher/details/{id}', 'Teacher\NoticeController@details')->name('teacher.notice.details');
+    });
+
+    // Parent
+    Route::prefix('parents')->group(function () {
+        Route::get('/teacher/view', 'Teacher\NoticeController@viewParent')->name('teacher.parents.view');
+    });
+
+
+
+
+});
+
+
+// Student //
+
+Route::middleware(['auth', 'student'])->group(function () {
+
+    Route::get('/student', 'HomeController@indexStudent')->name('student.home');
+
+    // Manage Student Profile
+    Route::prefix('profiles')->group(function () {
+        Route::get('/student/view', 'Student\ProfileController@view')->name('student.profiles.view');
+
+        Route::get('/student/Password/view', 'Student\ProfileController@passwordView')->name('student.profiles.password.view');
+        Route::post('/student/Password/update', 'Student\ProfileController@passwordUpdate')->name('student.profiles.password.update');
+    });
+
+
+    // Manage Information
+    Route::prefix('information')->group(function () {
+        Route::get('/student/fee-category-amount/view', 'Student\InformationController@feeCategoryAmount')->name('fee.category.amount.view');
+        Route::get('/student/details/{fee_category_id}', 'Student\InformationController@feeCategoryAmountDetails')->name('fee.category.amount.details');
+
+        Route::get('/student/exam/type/view', 'Student\InformationController@viewExamType')->name('exam.type.view');
+
+        Route::get('/student/assign/subject/view', 'Student\InformationController@viewAssignSubject')->name('assign.subject.view');
+        Route::get('/student/assign/subject/details/{class_id}', 'Student\InformationController@detailsAssignSubject')->name('assign.subject.details');
+
+        Route::get('/marks/grade/view', 'Student\InformationController@viewMarkGrade')->name('mark.grade.view');
+
+        Route::get('student/marksheet/view', 'Student\InformationController@markSheetView')->name('student.reports.marksheet.view');
+        Route::get('student/marksheet/get', 'Student\InformationController@markSheetGet')->name('student.reports.marksheet.get');
+    });
+
+    // Notice Board
+    Route::prefix('notice')->group(function () {
+        Route::get('/student/view', 'Student\NoticeController@noticeView')->name('student.notice.view');
+        Route::get('/student/details/{id}', 'Student\NoticeController@details')->name('student.notice.details');
+    });
+
+
+
+});
+
+// Parent
+Route::middleware(['auth', 'parent'])->group(function () {
+
+    Route::get('/parent', 'HomeController@indexParent')->name('parent.home');
+
+    // Manage Student Profile
+    Route::prefix('profiles')->group(function () {
+        Route::get('/parent/view', 'Parent\ProfileController@view')->name('parent.profiles.view');
+        Route::get('/parent/edit', 'Parent\ProfileController@edit')->name('parent.profiles.edit');
+        Route::post('/parent/update', 'Parent\ProfileController@update')->name('parent.profiles.update');
+
+        Route::get('/parent/Password/view', 'Parent\ProfileController@passwordView')->name('parent.profiles.password.view');
+        Route::post('/parent/Password/update', 'Parent\ProfileController@passwordUpdate')->name('parent.profiles.password.update');
+    });
+
+    // Manage Information
+    Route::prefix('information')->group(function () {
+        Route::get('/parent/fee-category-amount/view', 'Parent\InformationController@feeCategoryAmount')->name('parent.fee.category.amount.view');
+        Route::get('/parent/details/{fee_category_id}', 'Parent\InformationController@feeCategoryAmountDetails')->name('parent.fee.category.amount.details');
+
+        Route::get('/parent/exam/type/view', 'Parent\InformationController@viewExamType')->name('parent.exam.type.view');
+
+        Route::get('/parent/assign/subject/view', 'Parent\InformationController@viewAssignSubject')->name('parent.assign.subject.view');
+        Route::get('/parent/assign/subject/details/{class_id}', 'Parent\InformationController@detailsAssignSubject')->name('parent.assign.subject.details');
+
+        Route::get('/parent/marks/grade/view', 'Parent\InformationController@viewMarkGrade')->name('parent.mark.grade.view');
+
+        Route::get('parent/marksheet/view', 'Parent\InformationController@markSheetView')->name('parent.reports.marksheet.view');
+        Route::get('parent/marksheet/get', 'Parent\InformationController@markSheetGet')->name('parent.student.reports.marksheet.get');
+
+        // Notice Board
+        Route::prefix('notice')->group(function () {
+            Route::get('/parent/view', 'Parent\NoticeController@noticeView')->name('parent.notice.view');
+            Route::get('/parent/details/{id}', 'Parent\NoticeController@details')->name('parent.notice.details');
+        });
+
+
+
+    });
+
+
 
 
 });
